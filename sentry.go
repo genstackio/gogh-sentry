@@ -1,7 +1,8 @@
-package none
+package gogh_sentry
 
 import (
 	"context"
+	"github.com/genstackio/gogh"
 	"github.com/genstackio/gogh/common"
 	"log"
 )
@@ -61,4 +62,12 @@ func (p *Provider) Wrap(h common.HandlerFn) common.HandlerFn {
 //goland:noinspection GoUnusedExportedFunction
 func Create() common.Provider {
 	return &Provider{}
+}
+
+//goland:noinspection GoUnusedExportedFunction
+func Register() {
+	err := gogh.RegisterProvider("sentry", Create)
+	if err != nil {
+		log.Println("gogh-sentry: unable to register provider")
+	}
 }

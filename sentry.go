@@ -12,55 +12,94 @@ import (
 type Provider struct {
 }
 
+func wrapWithCaptureContext(ctx common.CaptureContext, fn func()) {
+	sentry.WithScope(func(scope *sentry.Scope) {
+		if ctx.Tags != nil {
+			scope.SetTags((interface{}(ctx.Tags)).(map[string]string))
+		}
+		if ctx.Data != nil {
+			scope.SetExtras(ctx.Data.(map[string]interface{}))
+		}
+		if "" != ctx.Tag.Key {
+			scope.SetTag(ctx.Tag.Key, ctx.Tag.Value.(string))
+		}
+		if "" != ctx.User {
+			scope.SetUser(sentry.User{
+				ID: ctx.User.(string),
+			})
+		}
+		fn()
+	})
+
+}
+
 //goland:noinspection GoUnusedParameter
 func (p *Provider) AddCaptureContext(ctx common.CaptureContext) {
 }
 
 //goland:noinspection GoUnusedParameter
 func (p *Provider) CaptureError(err error, ctx common.CaptureContext) {
-	sentry.CaptureException(err)
+	wrapWithCaptureContext(ctx, func() {
+		sentry.CaptureException(err)
+	})
 }
 
 //goland:noinspection GoUnusedParameter
 func (p *Provider) CaptureMessage(message string, ctx common.CaptureContext) {
-	sentry.CaptureMessage(message)
+	wrapWithCaptureContext(ctx, func() {
+		sentry.CaptureMessage(message)
+	})
 }
 
 //goland:noinspection GoUnusedParameter
 func (p *Provider) CaptureMessages(messages []string, ctx common.CaptureContext) {
-	for i := 0; i < len(messages); i++ {
-		sentry.CaptureMessage(messages[i])
-	}
+	wrapWithCaptureContext(ctx, func() {
+		for i := 0; i < len(messages); i++ {
+			sentry.CaptureMessage(messages[i])
+		}
+	})
 }
 
 //goland:noinspection GoUnusedParameter
 func (p *Provider) CaptureProperty(typ string, data interface{}, ctx common.CaptureContext) {
-	// @todo
+	wrapWithCaptureContext(ctx, func() {
+		// @todo
+	})
 }
 
 //goland:noinspection GoUnusedParameter
 func (p *Provider) CaptureData(bulkData map[string]interface{}, ctx common.CaptureContext) {
-	// @todo
+	wrapWithCaptureContext(ctx, func() {
+		// @todo
+	})
 }
 
 //goland:noinspection GoUnusedParameter
 func (p *Provider) CaptureEvent(event interface{}, ctx common.CaptureContext) {
-	// @todo
+	wrapWithCaptureContext(ctx, func() {
+		// @todo
+	})
 }
 
 //goland:noinspection GoUnusedParameter
 func (p *Provider) CaptureTag(tag string, value interface{}, ctx common.CaptureContext) {
-	// @todo
+	wrapWithCaptureContext(ctx, func() {
+		// @todo
+	})
 }
 
 //goland:noinspection GoUnusedParameter
 func (p *Provider) CaptureTags(tags map[string]interface{}, ctx common.CaptureContext) {
-	// @todo
+	wrapWithCaptureContext(ctx, func() {
+		// @todo
+	})
 }
 
 //goland:noinspection GoUnusedParameter
 func (p *Provider) Error(err error, ctx common.CaptureContext) {
-	p.CaptureError(err, ctx)
+	wrapWithCaptureContext(ctx, func() {
+		p.CaptureError(err, ctx)
+	})
 }
 
 //goland:noinspection GoUnusedParameter

@@ -8,6 +8,7 @@ import (
 	"github.com/getsentry/sentry-go"
 	"log"
 	"os"
+	"time"
 )
 
 type Provider struct {
@@ -115,6 +116,11 @@ func (p *Provider) Error(err error, ctx common.CaptureContext) {
 	wrapWithCaptureContext(ctx, func() {
 		p.CaptureError(err, ctx)
 	})
+}
+
+//goland:noinspection GoUnusedExportedFunction
+func (p *Provider) Clean() {
+	sentry.Flush(2 * time.Second)
 }
 
 //goland:noinspection GoUnusedParameter

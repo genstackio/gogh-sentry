@@ -7,6 +7,8 @@ github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/genstackio/gogh v0.4.0 h1:+Iq4qtaJ1zxjjZd1T9rAIfFlbjw7uyWPiEBVO0LcCzg=
 github.com/genstackio/gogh v0.4.0/go.mod h1:tp3BPNu3X9vNqx0fOAYLHK3pkOm6L6P0UYLIq2jUofU=
+github.com/genstackio/gogh v0.5.0 h1:gpRleqThCGnShHCZngpa7OaHE0FxqB3bDJFbmkxZCu0=
+github.com/genstackio/gogh v0.5.0/go.mod h1:tp3BPNu3X9vNqx0fOAYLHK3pkOm6L6P0UYLIq2jUofU=
 github.com/getsentry/sentry-go v0.15.0 h1:CP9bmA7pralrVUedYZsmIHWpq/pBtXTSew7xvVpfLaA=
 github.com/getsentry/sentry-go v0.15.0/go.mod h1:RZPJKSw+adu8PBNygiri/A98FqVr2HtRckJk9XVxJ9I=
 github.com/go-chi/chi/v5 v5.0.7 h1:rDTPXLDHGATaeHvVlLcR4Qe0zftYethFucbjVQ1PxU8=

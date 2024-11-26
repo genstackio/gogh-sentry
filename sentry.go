@@ -43,11 +43,6 @@ func wrapWithCaptureContext(ctx common.CaptureContext, fn func()) {
 		if "" != ctx.Tag.Key {
 			scope.SetTag(ctx.Tag.Key, ctx.Tag.Value.(string))
 		}
-		if "" != ctx.User {
-			scope.SetUser(sentry.User{
-				ID: ctx.User.(string),
-			})
-		}
 		fn()
 	})
 

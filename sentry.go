@@ -2,6 +2,7 @@ package gogh_sentry
 
 import (
 	"context"
+	"fmt"
 	"github.com/genstackio/gogh"
 	"github.com/genstackio/gogh/common"
 	"github.com/getsentry/sentry-go"
@@ -12,13 +13,32 @@ import (
 type Provider struct {
 }
 
+func convertMapStringInterfaceToMapStringString(original map[string]interface{}) (map[string]string, error) {
+	converted := make(map[string]string)
+
+	for key, value := range original {
+		strValue, ok := value.(string)
+		if !ok {
+			return nil, fmt.Errorf("value for key %s is not a string", key)
+		}
+		converted[key] = strValue
+	}
+
+	return converted, nil
+}
 func wrapWithCaptureContext(ctx common.CaptureContext, fn func()) {
 	sentry.WithScope(func(scope *sentry.Scope) {
 		if ctx.Tags != nil {
-			scope.SetTags((interface{}(ctx.Tags)).(map[string]string))
+			convertedTags, err := convertMapStringInterfaceToMapStringString(ctx.Tags)
+			if nil == err {
+				scope.SetTags(convertedTags)
+			}
 		}
 		if ctx.Data != nil {
-			scope.SetExtras(ctx.Data.(map[string]interface{}))
+			convertedExtras, ok := ctx.Data.(map[string]interface{})
+			if ok {
+				scope.SetExtras(convertedExtras)
+			}
 		}
 		if "" != ctx.Tag.Key {
 			scope.SetTag(ctx.Tag.Key, ctx.Tag.Value.(string))

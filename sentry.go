@@ -37,7 +37,7 @@ func wrapWithCaptureContext(ctx common.CaptureContext, fn func()) {
 		if ctx.Data != nil {
 			convertedExtras, ok := ctx.Data.(map[string]interface{})
 			if ok {
-				scope.SetExtras(convertedExtras)
+				scope.SetContext("extras", convertedExtras)
 			}
 		}
 		if "" != ctx.Tag.Key {
